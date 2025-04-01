@@ -1,18 +1,46 @@
-﻿namespace JogoDosDados.ConsoleApp
+﻿using System.Runtime.CompilerServices;
+
+namespace JogoDosDados.ConsoleApp
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            const int limiteLinhaChegado = 30;
+
             while(true)
             {            
-                ExibirCabecalho();
-              
-                int resultado =LancarDado();
-             
-                ExibirResultadoSorteio(resultado);
+                int posicaoUsuario = 0;
 
-                string opcaoContinuar = ExbirMenuContinuar();
+                bool jogoEstaEmAndamento = true;
+
+                while(jogoEstaEmAndamento)
+                {
+                    ExibirCabecalho();
+
+                    int resultado = LancarDado();
+
+                    ExibirResultadoSorteio(resultado);
+
+                    posicaoUsuario += resultado;
+
+                    Console.WriteLine($"O Jogador está na posíção: {posicaoUsuario} do {limiteLinhaChegado}");
+
+                    if (posicaoUsuario >= limiteLinhaChegado)
+                    {
+                        Console.WriteLine("Parabéns, você alcançou a linha de chegada!");
+
+                        jogoEstaEmAndamento = false;
+                    }
+                    else
+                        Console.WriteLine($"O jogador está na posição: {posicaoUsuario} de {limiteLinhaChegado}");
+
+                    Console.WriteLine("----------------------------------------");
+                    Console.WriteLine("Pressione ENTER para Continuar....");
+                    Console.ReadLine();
+                }                
+
+                    string opcaoContinuar = ExbirMenuContinuar();
 
                 if (opcaoContinuar != "S")
                     break;             
@@ -48,6 +76,7 @@
 
         static string ExbirMenuContinuar()
         {
+            Console.WriteLine("----------------------------------------");
             Console.Write("Deseja continuar? (S/N): ");
             string opcaoContinuar = Console.ReadLine()!.ToUpper();
 
